@@ -15,7 +15,7 @@ router.get("/", function(req, res){
 
 router.post("/cadastrar", function(req, res){
   var dados = req.body.transacao;
-
+  console.log(dados);
   if(!dados)
     return res.sendStatus(400);
 
@@ -41,20 +41,21 @@ router.put("/editar", function(req, res){
   var json = JSON.parse(dados);
 
   transacaoEditar = new Transacao(json);
-
+  console.log(transacaoEditar);
   Transacao.buscarPorId(transacaoEditar._id, function(err, transacao){
      if(err)
         return response.sendStatus(500);
 
+        console.log(transacao);
         transacao.titulo = transacaoEditar.titulo;
         transacao.tipo = transacaoEditar.tipo;
         transacao.valor = transacaoEditar.valor;
 
         transacao.save(function(err){
           if(err)
-            response.sendStatus(500);
+            res.sendStatus(500);
           else{
-            response.json(transacaoEditar);
+            res.json(transacaoEditar);
           }
      });
    });
@@ -72,9 +73,9 @@ router.delete("/excluir", function(req, res){
 
   Transacao.remove({_id:transacaoExcluir._id}, function(err){
     if(err)
-      return response.sendStatus(500);
+      return res.sendStatus(500);
 
-    response.sendStatus(200);
+    res.sendStatus(200);
   });
 });
 
