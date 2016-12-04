@@ -1,3 +1,5 @@
+var mongoose = require('../connection/db');
+
 var schema = mongoose.Schema;
 
 var TransacaoSchema = schema({
@@ -11,7 +13,7 @@ TransacaoSchema.statics.buscarPorId = function(id, resposta){
   .exec(resposta);
 };
 
-BicicletaSchema.statics.buscar = function(resposta){
+TransacaoSchema.statics.buscar = function(resposta){
   this.find()
   .exec(resposta);
 };
