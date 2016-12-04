@@ -9,7 +9,8 @@ var Pessoa = require('./model/pessoa');
 
 var db = require('./connection/db');
 
-var routes = require('./routes');
+var routes = require('./routes/index');
+var pessoas = require('./routes/pessoas');
 
 var app = express();
 
@@ -26,6 +27,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(routes);
+app.use(pessoas);
 
 
 // catch 404 and forward to error handler

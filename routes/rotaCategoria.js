@@ -3,7 +3,7 @@ var Categoria= require('../model/categoria');
 var express = require('express');
 var router = express.Router();
 
-router.get("/", function(req, res){
+router.get("/categoria", function(req, res){
   Categoria.buscar(function(erro, dados){
     if(erro)
       res.sendStatus(500);
@@ -13,7 +13,7 @@ router.get("/", function(req, res){
   });
 });
 
-router.post("/cadastrar", function(req, res){
+router.post("/categoria", function(req, res){
   var dados = req.body.categoria;
 
   if(!dados)
@@ -32,7 +32,7 @@ router.post("/cadastrar", function(req, res){
   });
 });
 
-router.put("/editar", function(req, res){
+router.put("/categoria", function(req, res){
   var dados = req.body.categoria;
 
   if(!dados)
@@ -60,7 +60,7 @@ router.put("/editar", function(req, res){
    });
 });
 
-router.delete("/excluir", function(req, res){
+router.delete("/categoria", function(req, res){
   var dados = req.body.categoria;
 
   if(!dados)

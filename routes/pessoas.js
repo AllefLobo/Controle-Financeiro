@@ -4,15 +4,18 @@ var Pessoa = require('../model/pessoa');
 
 
 router.get('/pessoas', function(req, res, next) {
-  res.send(Pessoa.list);
+	Pessoa.find(function (err, pessoas) {
+  if (err) return console.error(err);
+  console.log(pessoas);
+	res.send(pessoas);
+})
+
 });
 
-router.get('/pessoas/:id', function(req, res, next) {
-  res.send('respond with a resource');
-});
 
 router.post('/pessoas', function(req, res, next) {
-  res.send(req.params());
+	console.log(req.params);
+	res.json(req.params);
 });
 
 router.put('/pessoas/:id', function(req, res, next) {
