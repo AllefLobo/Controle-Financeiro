@@ -4,7 +4,7 @@ var Transacao= require('../model/transacao');
 var express = require('express');
 var router = express.Router();
 
-router.get("/categoria", function(req, res){
+router.get("/", function(req, res){
   Categoria.buscar(function(erro, dados){
     if(erro)
       res.sendStatus(500);
@@ -14,7 +14,7 @@ router.get("/categoria", function(req, res){
   });
 });
 
-router.post("/categoria", function(req, res){
+router.post("/", function(req, res){
   var dados = req.body.categoria;
 
   if(!dados)
@@ -33,7 +33,7 @@ router.post("/categoria", function(req, res){
   });
 });
 
-router.put("/categoria", function(req, res){
+router.put("/", function(req, res){
   var dados = req.body.categoria;
 
   if(!dados)
@@ -61,7 +61,7 @@ router.put("/categoria", function(req, res){
    });
 });
 
-router.delete("/categoria", function(req, res){
+router.delete("/", function(req, res){
   var dados = req.body.categoria;
 
   if(!dados)
@@ -79,7 +79,7 @@ router.delete("/categoria", function(req, res){
   });
 });
 
-router.post("/add-trasacao", function(req, res){
+router.post("/add-transacao", function(req, res){
   var idCategoria = req.body.categoria;
   var dados = req.body.transacao;
   console.log(idCategoria);
