@@ -3,7 +3,7 @@ var router = express.Router();
 var Pessoa = require('../model/pessoa');
 
 
-router.get('/pessoas', function(req, res, next) {
+router.get('/', function(req, res, next) {
   res.send(Pessoa.list);
 });
 

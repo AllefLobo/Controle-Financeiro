@@ -52,9 +52,9 @@ router.put("/editar", function(req, res){
 
         categoria.save(function(err){
           if(err)
-            response.sendStatus(500);
+            res.sendStatus(500);
           else{
-            response.json(categoriaEditar);
+            res.json(categoriaEditar);
           }
      });
    });
@@ -68,13 +68,13 @@ router.delete("/excluir", function(req, res){
 
   var json = JSON.parse(dados);
 
-  transacaoExcluir = new Transacao(json);
+  categoriaExcluir = new Categoria(json);
 
-  Categoria.remove({_id:transacaoExcluir._id}, function(err){
+  Categoria.remove({_id:categoriaExcluir._id}, function(err){
     if(err)
-      return response.sendStatus(500);
+      return res.sendStatus(500);
 
-    response.sendStatus(200);
+    res.sendStatus(200);
   });
 });
 
