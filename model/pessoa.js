@@ -1,7 +1,8 @@
-var mongoose = require('mongoose');
+var mongoose = require('../connection/db');
+
 var Schema = mongoose.Schema;
 
-var pessoaSchema = new Schema({
+var PessoaSchema = new Schema({
 	nome: String,
   email: String,
 	senha: String,
@@ -10,4 +11,4 @@ var pessoaSchema = new Schema({
 	categorias: [{ type: Schema.Types.ObjectId, ref: 'Categoria' }]
 });
 
-module.exports = mongoose.model('Pessoa', pessoaSchema);
+module.exports = mongoose.model('Pessoa', PessoaSchema);
