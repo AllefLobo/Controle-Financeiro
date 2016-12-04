@@ -4,6 +4,7 @@ var Transacao= require('../model/transacao');
 var express = require('express');
 var router = express.Router();
 
+<<<<<<< HEAD
 /**
  * @api {get} /
  * @apiGroup Categoria
@@ -25,6 +26,8 @@ var router = express.Router();
  *       status:500
  *     }
  */
+=======
+>>>>>>> a6a0f27e6a7b41164c849162630efdc38bf464bf
 router.get("/", function(req, res){
   Categoria.buscar(function(erro, dados){
     if(erro)
@@ -35,6 +38,7 @@ router.get("/", function(req, res){
   });
 });
 
+<<<<<<< HEAD
 
 /**
  * @api {post} /cadastrar
@@ -70,6 +74,9 @@ router.get("/", function(req, res){
  *     }
  */
 router.post("/cadastrar", function(req, res){
+=======
+router.post("/", function(req, res){
+>>>>>>> a6a0f27e6a7b41164c849162630efdc38bf464bf
   var dados = req.body.categoria;
 
   if(!dados)
@@ -88,6 +95,7 @@ router.post("/cadastrar", function(req, res){
   });
 });
 
+<<<<<<< HEAD
 /**
    * @api {put} /editar
    * @apiGroup Categoria
@@ -122,6 +130,9 @@ router.post("/cadastrar", function(req, res){
    *     }
    */
 router.put("/editar", function(req, res){
+=======
+router.put("/", function(req, res){
+>>>>>>> a6a0f27e6a7b41164c849162630efdc38bf464bf
   var dados = req.body.categoria;
 
   if(!dados)
@@ -149,6 +160,7 @@ router.put("/editar", function(req, res){
    });
 });
 
+<<<<<<< HEAD
 /**
  * @api {delete} /editar
  * @apiGroup Categoria
@@ -180,6 +192,9 @@ router.put("/editar", function(req, res){
  *     }
  */
 router.delete("/excluir", function(req, res){
+=======
+router.delete("/", function(req, res){
+>>>>>>> a6a0f27e6a7b41164c849162630efdc38bf464bf
   var dados = req.body.categoria;
 
   if(!dados)
@@ -197,6 +212,7 @@ router.delete("/excluir", function(req, res){
   });
 });
 
+<<<<<<< HEAD
 /**
  * @api {post} /add-trasacao
  * @apiGroup Categoria
@@ -225,6 +241,9 @@ router.delete("/excluir", function(req, res){
  *     }
  */
 router.post("/add-trasacao", function(req, res){
+=======
+router.post("/add-transacao", function(req, res){
+>>>>>>> a6a0f27e6a7b41164c849162630efdc38bf464bf
   var idCategoria = req.body.categoria;
   var dados = req.body.transacao;
   console.log(idCategoria);
