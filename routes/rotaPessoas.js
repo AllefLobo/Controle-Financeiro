@@ -3,6 +3,7 @@ var router = express.Router();
 var Pessoa = require('../model/pessoa');
 
 
+
 router.get('/pessoa', function(req, res) {
 	Pessoa.buscar(function(erro, dados){
     if(erro)
