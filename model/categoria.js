@@ -1,11 +1,12 @@
 var mongoose = require('../connection/db');
 
-var schema = mongoose.Schema;
+var Schema = mongoose.Schema;
 
-var CategoriaSchema = schema({
+var CategoriaSchema = new Schema({
   titulo:{type:String, require:true},
   estimativaGastos:{type:Number, require:false},
-  tipo:{type:String, require:true}
+  tipo:{type:String, require:true},
+  transacoes:[{ type: Schema.Types.ObjectId, ref: 'Transacao' }]
 }, {versionKey: false});
 
 CategoriaSchema.statics.buscarPorId = function(id, resposta){
