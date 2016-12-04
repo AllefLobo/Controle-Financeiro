@@ -4,7 +4,28 @@ var Transacao= require('../model/transacao');
 var express = require('express');
 var router = express.Router();
 
-router.get("/categoria", function(req, res){
+/**
+ * @api {get} /
+ * @apiGroup Categoria
+ *
+ * @apiSuccess {Categoria[]} dados Todas as categorias cadastradas na aplicação.
+ *
+ * @apiSuccessExample {json} Sucesso
+ *    HTTP/1.1 200 OK
+ *    {
+ *     [{"_id": "58437c328b204c2fb08cad1d", "titulo": "Comida", "estimativaGastos": 3000, "tipo": "Despesa",
+ *              "transacoes": ["58437c328b204c2fb08cad1d"]]}
+ *    }
+ *
+ * @apiError Erro Erro interno do servidor.
+ *
+ * @apiErrorExample Error-Response:
+ *     HTTP/1.1 500 Internal Server Error
+ *     {
+ *       status:500
+ *     }
+ */
+router.get("/", function(req, res){
   Categoria.buscar(function(erro, dados){
     if(erro)
       res.sendStatus(500);
@@ -14,7 +35,41 @@ router.get("/categoria", function(req, res){
   });
 });
 
-router.post("/categoria", function(req, res){
+
+/**
+ * @api {post} /cadastrar
+ * @apiGroup Categoria
+ *
+ * @apiParam {String} titulo Obrigatório
+ * @apiParam {String} tipo Obrigatório
+ * @apiParam {Number} estimativaGastos Opcional
+ *
+ * @apiSuccess {String} ok Cadastro ocorreu com sucesso.
+ *
+ * @apiSuccessExample {json} Sucesso
+ *    HTTP/1.1 200 OK
+ *    {
+ *      status:200
+ *    }
+ *
+ *
+ * @apiError Erro Erros.
+ *
+ * @apiErrorExample Error-Response:
+ *     HTTP/1.1 500 Internal Server Error
+ *     {
+ *       status:500
+ *     }
+
+ * @apiError Erro Bad Request.
+ *
+ * @apiErrorExample Error-Response:
+ *     HTTP/1.1 400 Bad Request
+ *     {
+ *       status: 400
+ *     }
+ */
+router.post("/cadastrar", function(req, res){
   var dados = req.body.categoria;
 
   if(!dados)
@@ -33,7 +88,40 @@ router.post("/categoria", function(req, res){
   });
 });
 
-router.put("/categoria", function(req, res){
+/**
+   * @api {put} /editar
+   * @apiGroup Categoria
+
+   * @apiParam {String} _id   Obrigatório
+   * @apiParam {String} titulo Opcional
+   * @apiParam {String} tipo Opcional
+   * @apiParam {String} estimativaGastos Opcional
+   *
+   * @apiSuccess {Categoria} categoria Retorna os dados atualizados de uma categoria.
+   *
+   * @apiSuccessExample {json} Sucesso
+   *    HTTP/1.1 200 OK
+   *    {
+   *      "categoria": {_id:"as334fdd5G23", "titulo": "Aluguel", "estimativaGastos": "2333", "tipo":"Despesa"}
+   *    }
+   *
+   * @apiError Erro Erros.
+   *
+   * @apiErrorExample Error-Response:
+   *     HTTP/1.1 500 Internal Server Error
+   *     {
+   *       status: 500
+   *     }
+
+   * @apiError Erro Bad Request.
+   *
+   * @apiErrorExample Error-Response:
+   *     HTTP/1.1 400 Bad Request
+   *     {
+   *       status: 400
+   *     }
+   */
+router.put("/editar", function(req, res){
   var dados = req.body.categoria;
 
   if(!dados)
@@ -61,7 +149,37 @@ router.put("/categoria", function(req, res){
    });
 });
 
-router.delete("/categoria", function(req, res){
+/**
+ * @api {delete} /editar
+ * @apiGroup Categoria
+
+ * @apiParam {String} _id   Obrigatório
+ *
+ * @apiSuccess {String} ok Sucesso em deletar uma categoria.
+ *
+ * @apiSuccessExample {json} Sucesso
+ *    HTTP/1.1 200 OK
+ *    {
+ *      "status: 200
+ *    }
+ *
+ * @apiError Erro Erros.
+ *
+ * @apiErrorExample Error-Response:
+ *     HTTP/1.1 500 Internal Server Error
+ *     {
+ *       status: 500
+ *     }
+
+ * @apiError Erro Bad Request.
+ *
+ * @apiErrorExample Error-Response:
+ *     HTTP/1.1 400 Bad Request
+ *     {
+ *       status: 400
+ *     }
+ */
+router.delete("/excluir", function(req, res){
   var dados = req.body.categoria;
 
   if(!dados)
@@ -79,6 +197,33 @@ router.delete("/categoria", function(req, res){
   });
 });
 
+/**
+ * @api {post} /add-trasacao
+ * @apiGroup Categoria
+ *
+ *@apiParam {String} _idCategoria Obrigatório
+
+ * @apiParam {String} tituloTransacao Obrigatório
+ * @apiParam {String} tipoTransacao Obrigatório
+ * @apiParam {Number} valorTransacao Obrigatório
+ *
+ * @apiSuccess {String} ok Cadastro ocorreu com sucesso.
+ *
+ * @apiSuccessExample {json} Sucesso
+ *    HTTP/1.1 200 OK
+ *    {
+ *      status:200
+ *    }
+ *
+ *
+ * @apiError Erro Erros.
+ *
+ * @apiErrorExample Error-Response:
+ *     HTTP/1.1 500 Internal Server Error
+ *     {
+ *       status:500
+ *     }
+ */
 router.post("/add-trasacao", function(req, res){
   var idCategoria = req.body.categoria;
   var dados = req.body.transacao;
@@ -108,14 +253,14 @@ router.post("/add-trasacao", function(req, res){
             Categoria.update({_id:categoria._id}, {$push : {transacoes: transacao }}, function(err){
               if(err)
                 return res.sendStatus(500);
-              res.json({ok:"ok"});
+              res.sendStatus(200);
             });
         });
       }else{
         Categoria.update({_id:categoria._id}, {$push : {transacoes: transacao }}, function(err){
           if(err)
             return res.sendStatus(500);
-          res.json({ok:"ok"});
+          res.sendStatus(200);
         });
       }
     });
