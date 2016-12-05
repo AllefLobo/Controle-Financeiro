@@ -7,9 +7,9 @@ var PessoaSchema = new Schema({
 	nome: {type:String, require:true},
   email: {type:String, require:true},
 	senha: {type:String, require:true},
-	contas: [{ type: Schema.Types.ObjectId, ref: 'Conta' }],
-	transacoes: [{ type: Schema.Types.ObjectId, ref: 'Transacao' }],
-	categorias: [{ type: Schema.Types.ObjectId, ref: 'Categoria' }]
+	contas: [{ type: Schema.Types.ObjectId, require: false, ref: 'Conta' },{versionKey: false}],
+	transacoes: [{ type: Schema.Types.ObjectId, require: false, ref: 'Transacao' }, {versionKey: false}],
+	categorias: [{ type: Schema.Types.ObjectId, require: false, ref: 'Categoria' }, {versionKey: false}]
 });
 
 PessoaSchema.statics.buscarPorId = function(id, resposta){
