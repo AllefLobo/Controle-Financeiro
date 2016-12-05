@@ -3,7 +3,26 @@ var router = express.Router();
 var Conta = require('../model/conta');
 
 
-
+/**
+ * @api {get} /
+ * @apiGroup Conta
+ *
+ * @apiSuccess {Conta[]} dados Todas as contas cadastradas na aplicação.
+ *
+ * @apiSuccessExample {json} Sucesso
+ *    HTTP/1.1 200 OK
+ *    {
+ *     	
+ *    }
+ *
+ * @apiError Erro Erro interno do servidor.
+ *
+ * @apiErrorExample Error-Response:
+ *     HTTP/1.1 500 Internal Server Error
+ *     {
+ *       status:500
+ *     }
+ */
 router.get('/', function(req, res) {
 	Conta.buscar(function(erro, dados){
     if(erro)
@@ -14,6 +33,41 @@ router.get('/', function(req, res) {
   });
 });
 
+/**
+ * @api {post} /
+ * @apiGroup Conta
+ *
+ * @apiParam {String} titulo Obrigatório
+ * @apiParam {String} descricao Opcional
+ * @apiParam {Date} prazo Obrigatorio
+ * @apiParam {Number} valor Obrigatorio
+ * @apiParam {Boolean} status Obrigatorio
+ *
+ * @apiSuccess {String} ok Cadastro ocorreu com sucesso.
+ *
+ * @apiSuccessExample {json} Sucesso
+ *    HTTP/1.1 200 OK
+ *    {
+ *      status:200
+ *    }
+ *
+ *
+ * @apiError Erro Erros.
+ *
+ * @apiErrorExample Error-Response:
+ *     HTTP/1.1 500 Internal Server Error
+ *     {
+ *       status:500
+ *     }
+
+ * @apiError Erro Bad Request.
+ *
+ * @apiErrorExample Error-Response:
+ *     HTTP/1.1 400 Bad Request
+ *     {
+ *       status: 400
+ *     }
+ */
 router.post('/', function(req, res) {
 	var dados = req.body.Conta;
 
@@ -32,6 +86,41 @@ router.post('/', function(req, res) {
   });
 });
 
+/**
+   * @api {put} /
+   * @apiGroup Conta
+
+   * @apiParam {String} _id   Obrigatório
+	 * @apiParam {String} titulo Obrigatório
+	 * @apiParam {String} descricao Opcional
+	 * @apiParam {Date} prazo Obrigatorio
+	 * @apiParam {Number} valor Obrigatorio
+	 * @apiParam {Boolean} status Obrigatorio
+   *
+   * @apiSuccess {Conta} conta Retorna os dados atualizados de uma conta.
+   *
+   * @apiSuccessExample {json} Sucesso
+   *    HTTP/1.1 200 OK
+   *    {
+   *
+   *    }
+   *
+   * @apiError Erro Erros.
+   *
+   * @apiErrorExample Error-Response:
+   *     HTTP/1.1 500 Internal Server Error
+   *     {
+   *       status: 500
+   *     }
+
+   * @apiError Erro Bad Request.
+   *
+   * @apiErrorExample Error-Response:
+   *     HTTP/1.1 400 Bad Request
+   *     {
+   *       status: 400
+   *     }
+   */
 router.put('/', function(req, res) {
 	var dados = req.body.Conta;
 
@@ -63,6 +152,36 @@ router.put('/', function(req, res) {
    });
 });
 
+/**
+ * @api {delete} /
+ * @apiGroup Conta
+
+ * @apiParam {String} _id   Obrigatório
+ *
+ * @apiSuccess {String} ok Sucesso em deletar uma conta.
+ *
+ * @apiSuccessExample {json} Sucesso
+ *    HTTP/1.1 200 OK
+ *    {
+ *      "status: 200
+ *    }
+ *
+ * @apiError Erro Erros.
+ *
+ * @apiErrorExample Error-Response:
+ *     HTTP/1.1 500 Internal Server Error
+ *     {
+ *       status: 500
+ *     }
+
+ * @apiError Erro Bad Request.
+ *
+ * @apiErrorExample Error-Response:
+ *     HTTP/1.1 400 Bad Request
+ *     {
+ *       status: 400
+ *     }
+ */
 router.delete('/', function(req, res) {
 	var dados = req.body.Conta;
 
