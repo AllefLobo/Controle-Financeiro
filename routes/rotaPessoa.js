@@ -73,7 +73,7 @@ router.get('/', function(req, res) {
  *     }
  */
 router.post('/', function(req, res) {
-	var dados = req.pessoa;
+	var dados = req.body.pessoa;
 
   if(!dados)
     return res.sendStatus(400);
@@ -127,13 +127,13 @@ router.post('/', function(req, res) {
    *     }
    */
 router.put('/', function(req, res) {
-	Pessoa.findById(req.body.id, function(err, pessoa) {
+	Pessoa.findById(req.body.pessoa.id, function(err, pessoa) {
     if (err)
       res.send(err);
 
-    pessoa.nome = req.body.nome;
-		pessoa.email = req.body.email;
-		pessoa.senha = req.body.senha;
+    pessoa.nome = req.body.pessoa.nome;
+		pessoa.email = req.body.pessoa.email;
+		pessoa.senha = req.body.pessoa.senha;
     pessoa.save(function(err) {
       if (err)
         res.send(err);
@@ -175,7 +175,7 @@ router.put('/', function(req, res) {
  */
 router.delete('/', function(req, res) {
 	Pessoa.remove({
-      _id: req.body.pessoa._id
+      _id: req.body.pessoa.id
   }, function(err, pessoa) {
       if (err)
           res.send(err);
@@ -212,45 +212,18 @@ router.delete('/', function(req, res) {
  *     }
  */
 router.post("/add-transacao", function(req, res){
-  var idPessoa = req.body.pessoa;
-  var dados = req.body.transacao;
-  console.log(idPessoa);
-  console.log(dados);
-  if(!idPessoa || !dados)
-    return res.sendStatus(400);
+	Pessoa.findById(req.body.pessoa.id, function(err, pessoa) {
+    if (err){
+      res.send(err);
+		} else{
+			pessoa.transacoes.push(new Transacao(req.body.transacao));
+	    pessoa.save(function(err) {
+	      if (err)
+	        res.send(err);
 
-  var jsonPessoa = dados;
-  var pessoa = new Pessoa(jsonPessoa);
-
-  var jsonTransacao = dados;
-  transacao = new Transacao(jsonTransacao);
-
-  pessoa.buscarPorId(pessoa._id, function(err, pessoa){
-     if(err)
-        return res.sendStatus(500);
-
-    Transacao.buscarPorId(transacao._id, function(err, transacaoServer){
-      if(err)
-         return res.sendStatus(500);
-      if(transacaoServer == null){
-        transacao.save(function(err){
-          if(err)
-            res.sendStatus(500);
-
-            pessoa.update({_id:pessoa._id}, {$push : {transacoes: transacao }}, function(err){
-              if(err)
-                return res.sendStatus(500);
-              res.json({ok:"ok"});
-            });
-        });
-      }else{
-        pessoa.update({_id:pessoa._id}, {$push : {transacoes: transacao }}, function(err){
-          if(err)
-            return res.sendStatus(500);
-          res.json({ok:"ok"});
-        });
-      }
-    });
+	    res.json(pessoa);
+	    });
+		}
   });
 });
 
@@ -283,46 +256,19 @@ router.post("/add-transacao", function(req, res){
  *     }
  */
 router.post("/add-categoria", function(req, res){
-  var idPessoa = req.body.Pessoa;
-  var dados = req.body.categoria;
-  console.log(idPessoa);
-  console.log(dados);
-  if(!idPessoa || !dados)
-    return res.sendStatus(400);
+	Pessoa.findById(req.body.pessoa.id, function(err, pessoa) {
+		if (err){
+			res.send(err);
+		} else{
+			pessoa.categorias.push(new Categoria(req.body.categoria));
+			pessoa.save(function(err) {
+				if (err)
+					res.send(err);
 
-  var jsonPessoa = dados;
-  var pessoa = new Pessoa(jsonPessoa);
-
-  var jsonCategoria = dados;
-  var categoria = new Categoria(jsonCategoria);
-
-  pessoa.buscarPorId(pessoa._id, function(err, pessoa){
-     if(err)
-        return res.sendStatus(500);
-
-    Categoria.buscarPorId(categoria._id, function(err, categoriaServer){
-      if(err)
-         return res.sendStatus(500);
-      if(categoriaServer == null){
-        categoria.save(function(err){
-          if(err)
-            res.sendStatus(500);
-
-            pessoa.update({_id:pessoa._id}, {$push : {categorias: categoria }}, function(err){
-              if(err)
-                return res.sendStatus(500);
-              res.json({ok:"ok"});
-            });
-        });
-      }else{
-        pessoa.update({_id:pessoa._id}, {$push : {categorias: categoria }}, function(err){
-          if(err)
-            return res.sendStatus(500);
-          res.json({ok:"ok"});
-        });
-      }
-    });
-  });
+			res.json(pessoa);
+			});
+		}
+	});
 });
 
 /**
@@ -355,46 +301,19 @@ router.post("/add-categoria", function(req, res){
  *     }
  */
 router.post("/add-conta", function(req, res){
-  var idPessoa = req.body.Pessoa;
-  var dados = req.body.conta;
-  console.log(idPessoa);
-  console.log(dados);
-  if(!idPessoa || !dados)
-    return res.sendStatus(400);
+	Pessoa.findById(req.body.pessoa.id, function(err, pessoa) {
+		if (err){
+			res.send(err);
+		} else{
+			pessoa.conta.push(new Conta(req.body.Conta));
+			pessoa.save(function(err) {
+				if (err)
+					res.send(err);
 
-  var jsonPessoa = dados;
-  var pessoa = new Pessoa(jsonPessoa);
-
-  var jsonConta = dados;
-  var conta = new Conta(jsonConta);
-
-  pessoa.buscarPorId(pessoa._id, function(err, pessoa){
-     if(err)
-        return res.sendStatus(500);
-
-    Conta.buscarPorId(conta._id, function(err, contaServer){
-      if(err)
-         return res.sendStatus(500);
-      if(contaServer == null){
-        conta.save(function(err){
-          if(err)
-            res.sendStatus(500);
-
-            pessoa.update({_id:pessoa._id}, {$push : {contas: conta }}, function(err){
-              if(err)
-                return res.sendStatus(500);
-              res.json({ok:"ok"});
-            });
-        });
-      }else{
-        pessoa.update({_id:pessoa._id}, {$push : {contas: conta }}, function(err){
-          if(err)
-            return res.sendStatus(500);
-          res.json({ok:"ok"});
-        });
-      }
-    });
-  });
+			res.json(pessoa);
+			});
+		}
+	});
 });
 
 module.exports = router;

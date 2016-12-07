@@ -232,7 +232,7 @@ router.post("/add-trasacao", function(req, res){
   if(!idCategoria || !dados)
     return res.sendStatus(400);
 
-  var jsonCategoria = JSON.parse(dados);
+  var jsonCategoria = JSON.parse(idCategoria);
   categoria = new Categoria(jsonCategoria);
 
   var jsonTransacao = JSON.parse(dados);
