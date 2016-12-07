@@ -6,7 +6,7 @@ var TransacaoSchema = schema({
   titulo:{type:String, require:true},
   valor:{type:Number, require:true},
   tipo:{type:String, require:true}
-}, {versionKey: false});
+});
 
 TransacaoSchema.statics.buscarPorId = function(id, resposta){
   this.findOne({_id:id})

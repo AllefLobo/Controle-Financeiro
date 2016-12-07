@@ -75,6 +75,8 @@ router.post("/cadastrar", function(req, res){
 
   var json = JSON.parse(dados);
 
+	console.log(json);
+
   transacao = new Transacao(json);
 
   transacao.save(function(err){
