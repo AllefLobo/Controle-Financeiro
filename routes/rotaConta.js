@@ -12,7 +12,7 @@ var Conta = require('../model/conta');
  * @apiSuccessExample {json} Sucesso
  *    HTTP/1.1 200 OK
  *    {
- *     	
+ *
  *    }
  *
  * @apiError Erro Erro interno do servidor.
@@ -69,15 +69,14 @@ router.get('/', function(req, res) {
  *     }
  */
 router.post('/', function(req, res) {
-	var dados = req.body.Conta;
+	var dados = req.body.conta;
 
   if(!dados)
     return res.sendStatus(400);
 
-  var json = JSON.parse(dados);
-  var Conta = new Categoria(json);
+  var conta = new Conta(dados);
 
-  Conta.save(function(err){
+  conta.save(function(err){
     if(err)
       res.sendStatus(500);
     else {
