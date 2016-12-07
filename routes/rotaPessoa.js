@@ -216,7 +216,9 @@ router.post("/add-transacao", function(req, res){
     if (err){
       res.send(err);
 		} else{
-			pessoa.transacoes.push(new Transacao(req.body.transacao));
+			var transacao = new Transacao(req.body.transacao);
+			transacao.save();
+			pessoa.transacoes.push(transacao);
 	    pessoa.save(function(err) {
 	      if (err)
 	        res.send(err);
@@ -260,7 +262,9 @@ router.post("/add-categoria", function(req, res){
 		if (err){
 			res.send(err);
 		} else{
-			pessoa.categorias.push(new Categoria(req.body.categoria));
+			var categoria = new Categoria(req.body.categoria);
+			categoria.save();
+			pessoa.categorias.push(categoria);
 			pessoa.save(function(err) {
 				if (err)
 					res.send(err);
@@ -305,7 +309,9 @@ router.post("/add-conta", function(req, res){
 		if (err){
 			res.send(err);
 		} else{
-			pessoa.conta.push(new Conta(req.body.Conta));
+			var conta = new Conta(req.body.Conta);
+			conta.save();
+			pessoa.contas.push(conta);
 			pessoa.save(function(err) {
 				if (err)
 					res.send(err);
