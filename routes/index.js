@@ -1,9 +1,9 @@
 var express = require('express');
 var router = express.Router();
 
-router.use("/transacao", require('./rotaTransacao'));
-router.use("/categoria", require('./rotaCategoria'));
-router.use("/pessoa", require('./rotaPessoa'));
-router.use("/conta", require('./rotaConta'));
+router.use("/api", require('./rotaTransacao'));
+router.use("/api", require('./rotaCategoria'));
+router.use("/api", require('./rotaPessoa'));
+router.use("/api", require('./rotaConta'));
 
 module.exports = router;

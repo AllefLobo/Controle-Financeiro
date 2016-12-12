@@ -4,7 +4,7 @@ var express = require('express');
 var router = express.Router();
 
 /**
- * @api {get} /
+ * @api {get} /transacao
  * @apiGroup Transacao
  *
  * @apiSuccess {Transacao[]} dados Todas as transações cadastradas na aplicação.
@@ -24,7 +24,7 @@ var router = express.Router();
  *       status:500
  *     }
  */
-router.get("/", function(req, res){
+router.get("/transacao", function(req, res){
   Transacao.buscar(function(erro, dados){
     if(erro)
       res.sendStatus(500);
@@ -35,7 +35,7 @@ router.get("/", function(req, res){
 });
 
 /**
- * @api {post} /cadastrar
+ * @api {post} /transacao
  * @apiGroup Transacao
  *
  * @apiParam {String} titulo Obrigatório
@@ -67,17 +67,13 @@ router.get("/", function(req, res){
  *       status: 400
  *     }
  */
-router.post("/cadastrar", function(req, res){
-  var dados = req.body.transacao;
+router.post("/transacao", function(req, res){
+  var dados = req.body;
   console.log(dados);
   if(!dados)
     return res.sendStatus(400);
 
-  var json = JSON.parse(dados);
-
-	console.log(json);
-
-  transacao = new Transacao(json);
+  transacao = new Transacao(dados);
 
   transacao.save(function(err){
     if(err)
@@ -89,7 +85,7 @@ router.post("/cadastrar", function(req, res){
 });
 
 /**
-   * @api {put} /editar
+   * @api {put} /transacao
    * @apiGroup Transacao
 
    * @apiParam {String} _id   Obrigatório
@@ -121,15 +117,14 @@ router.post("/cadastrar", function(req, res){
    *       status: 400
    *     }
    */
-router.put("/editar", function(req, res){
-  var dados = req.body.transacao;
+router.put("/transacao", function(req, res){
+  var dados = req.body;
 
   if(!dados)
     return res.sendStatus(400);
 
-  var json = JSON.parse(dados);
 
-  transacaoEditar = new Transacao(json);
+  transacaoEditar = new Transacao(dados);
   console.log(transacaoEditar);
   Transacao.buscarPorId(transacaoEditar._id, function(err, transacao){
      if(err)
@@ -151,7 +146,7 @@ router.put("/editar", function(req, res){
 });
 
 /**
- * @api {delete} /excluir
+ * @api {delete} /transacao
  * @apiGroup Transacao
 
  * @apiParam {String} _id   Obrigatório
@@ -180,15 +175,14 @@ router.put("/editar", function(req, res){
  *       status: 400
  *     }
  */
-router.delete("/excluir", function(req, res){
-  var dados = req.body.transacao;
+router.delete("/transacao", function(req, res){
+  var dados = req.body;
 
   if(!dados)
     return response.sendStatus(400);
 
-  var json = JSON.parse(dados);
 
-  transacaoExcluir = new Transacao(json);
+  transacaoExcluir = new Transacao(dados);
 
   Transacao.remove({_id:transacaoExcluir._id}, function(err){
     if(err)

@@ -5,7 +5,7 @@ var express = require('express');
 var router = express.Router();
 
 /**
- * @api {get} /
+ * @api {get} /categoria
  * @apiGroup Categoria
  *
  * @apiSuccess {Categoria[]} dados Todas as categorias cadastradas na aplicação.
@@ -25,7 +25,7 @@ var router = express.Router();
  *       status:500
  *     }
  */
-router.get("/", function(req, res){
+router.get("/categoria", function(req, res){
   Categoria.buscar(function(erro, dados){
     if(erro)
       res.sendStatus(500);
@@ -37,7 +37,7 @@ router.get("/", function(req, res){
 
 
 /**
- * @api {post} /cadastrar
+ * @api {post} /categoria
  * @apiGroup Categoria
  *
  * @apiParam {String} titulo Obrigatório
@@ -69,15 +69,14 @@ router.get("/", function(req, res){
  *       status: 400
  *     }
  */
-router.post("/cadastrar", function(req, res){
-  var dados = req.body.categoria;
+router.post("/categoria", function(req, res){
+  var dados = req.body;
 
   if(!dados)
     return res.sendStatus(400);
 
-  var json = JSON.parse(dados);
 
-  categoria = new Categoria(json);
+  categoria = new Categoria(dados);
 
   categoria.save(function(err){
     if(err)
@@ -89,20 +88,20 @@ router.post("/cadastrar", function(req, res){
 });
 
 /**
-   * @api {put} /editar
+   * @api {put} /categoria
    * @apiGroup Categoria
 
    * @apiParam {String} _id   Obrigatório
-   * @apiParam {String} titulo Opcional
-   * @apiParam {String} tipo Opcional
-   * @apiParam {String} estimativaGastos Opcional
+   * @apiParam {String} [titulo] Opcional
+   * @apiParam {String} [tipo] Opcional
+   * @apiParam {Number} [estimativaGastos] Opcional
    *
    * @apiSuccess {Categoria} categoria Retorna os dados atualizados de uma categoria.
    *
    * @apiSuccessExample {json} Sucesso
    *    HTTP/1.1 200 OK
    *    {
-   *      "categoria": {_id:"as334fdd5G23", "titulo": "Aluguel", "estimativaGastos": "2333", "tipo":"Despesa"}
+   *      "categoria": {_id:"as334fdd5G23", "titulo": "Aluguel", "estimativaGastos": 2333, "tipo":"Despesa"}
    *    }
    *
    * @apiError Erro Erros.
@@ -121,15 +120,14 @@ router.post("/cadastrar", function(req, res){
    *       status: 400
    *     }
    */
-router.put("/editar", function(req, res){
-  var dados = req.body.categoria;
+router.put("/categoria", function(req, res){
+  var dados = req.body;
 
   if(!dados)
     return res.sendStatus(400);
 
-  var json = JSON.parse(dados);
 
-  categoriaEditar = new Categoria(json);
+  categoriaEditar = new Categoria(dados);
 
   Categoria.buscarPorId(categoriaEditar._id, function(err, categoria){
      if(err)
@@ -150,7 +148,7 @@ router.put("/editar", function(req, res){
 });
 
 /**
- * @api {delete} /excluir
+ * @api {delete} /categoria
  * @apiGroup Categoria
 
  * @apiParam {String} _id   Obrigatório
@@ -179,15 +177,13 @@ router.put("/editar", function(req, res){
  *       status: 400
  *     }
  */
-router.delete("/excluir", function(req, res){
-  var dados = req.body.categoria;
+router.delete("/categoria", function(req, res){
+  var dados = req.body;
 
   if(!dados)
     return response.sendStatus(400);
 
-  var json = JSON.parse(dados);
-
-  categoriaExcluir = new Categoria(json);
+  categoriaExcluir = new Categoria(dados);
 
   Categoria.remove({_id:categoriaExcluir._id}, function(err){
     if(err)
@@ -198,10 +194,10 @@ router.delete("/excluir", function(req, res){
 });
 
 /**
- * @api {post} /add-trasacao
+ * @api {post} /categoria/add/transacao
  * @apiGroup Categoria
  *
- *@apiParam {String} _idCategoria Obrigatório
+ *@apiParam {String} categoriaId Obrigatório
 
  * @apiParam {String} tituloTransacao Obrigatório
  * @apiParam {String} tipoTransacao Obrigatório
@@ -224,47 +220,25 @@ router.delete("/excluir", function(req, res){
  *       status:500
  *     }
  */
-router.post("/add-trasacao", function(req, res){
-  var idCategoria = req.body.categoria;
-  var dados = req.body.transacao;
-  console.log(idCategoria);
-  console.log(dados);
-  if(!idCategoria || !dados)
-    return res.sendStatus(400);
+router.post("/categoria/add/transacao", function(req, res){
 
-  var jsonCategoria = JSON.parse(idCategoria);
-  categoria = new Categoria(jsonCategoria);
+	Categoria.findById(req.body.categoriaId, function(err, categoria) {
+		if (err){
+			res.send(err);
+		} else{
+			var transacao = new Transacao({titulo: req.body.titulo,
+				tipo: req.body.tipo,
+				valor: req.body.valor});
+			transacao.save();
+			categoria.transacoes.push(transacao);
+			categoria.save(function(err) {
+				if (err)
+					res.sendStatus(500);
 
-  var jsonTransacao = JSON.parse(dados);
-  transacao = new Transacao(jsonTransacao);
-
-  Categoria.buscarPorId(categoria._id, function(err, categoria){
-     if(err)
-        return res.sendStatus(500);
-
-    Transacao.buscarPorId(transacao._id, function(err, transacaoServer){
-      if(err)
-         return res.sendStatus(500);
-      if(transacaoServer == null){
-        transacao.save(function(err){
-          if(err)
-            res.sendStatus(500);
-
-            Categoria.update({_id:categoria._id}, {$push : {transacoes: transacao }}, function(err){
-              if(err)
-                return res.sendStatus(500);
-              res.sendStatus(200);
-            });
-        });
-      }else{
-        Categoria.update({_id:categoria._id}, {$push : {transacoes: transacao }}, function(err){
-          if(err)
-            return res.sendStatus(500);
-          res.sendStatus(200);
-        });
-      }
-    });
-  });
+			res.sendStatus(200);
+			});
+		}
+	});
 });
 
 module.exports = router;
