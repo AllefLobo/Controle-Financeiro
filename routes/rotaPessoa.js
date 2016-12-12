@@ -7,154 +7,24 @@ var router = express.Router();
 var Pessoa = require('../model/pessoa');
 
 /**
- * @api {get} /
+ * @api {get} /pessoa
+ * @apiName asdasdasdasdasdasd
  * @apiGroup Pessoa
  *
- * @apiSuccess {Pessoa[]} dados Todas as pessoas cadastradas na aplicação.
+ *
  *
  * @apiSuccessExample {json} Sucesso
  *    HTTP/1.1 200 OK
  *    {
- *     	[{"_id":"5843667379fa085cc7808525","nome":"allef","email":"allef@lobo","senha":"123","__v":0,"categorias":[],"transacoes":[],"contas":[]}]
- *    }
- *
- * @apiError Erro Erro interno do servidor.
- *
- * @apiErrorExample Error-Response:
- *     HTTP/1.1 500 Internal Server Error
- *     {
- *       status:500
- *     }
- */
-router.get('/', function(req, res) {
-	Pessoa.buscar(function(erro, dados){
-    if(erro)
-      res.sendStatus(500);
-    else {
-      res.json(dados);
-    }
-  });
-});
-
-/**
- * @api {post} /
- * @apiGroup Pessoa
- *
- * @apiParam {String} nome Obrigatório
- * @apiParam {String} email Obrigatório
- * @apiParam {String} senha Obrigatório
- * @apiParam {[conta]} contas Opcional
- * @apiParam {[transacao]} transacoes Opcional
- * @apiParam {[categoria]} categorias Opcional
- *
- * @apiSuccess {String} ok Cadastro ocorreu com sucesso.
- *
- * @apiSuccessExample {json} Sucesso
- *    HTTP/1.1 200 OK
- *    {
- *      status:200
- *    }
- *
- *
- * @apiError Erro Erros.
- *
- * @apiErrorExample Error-Response:
- *     HTTP/1.1 500 Internal Server Error
- *     {
- *       status:500
- *     }
-
- * @apiError Erro Bad Request.
- *
- * @apiErrorExample Error-Response:
- *     HTTP/1.1 400 Bad Request
- *     {
- *       status: 400
- *     }
- */
-router.post('/', function(req, res) {
-	var dados = req.body.pessoa;
-
-  if(!dados)
-    return res.sendStatus(400);
-
-  var json = dados;
-  var pessoa = new Pessoa(json);
-
-  pessoa.save(function(err){
-    if(err)
-      res.sendStatus(500);
-    else {
-      res.sendStatus(200);
-    }
-  });
-});
-
-/**
-   * @api {put} /editar
-   * @apiGroup Categoria
-
-   * @apiParam {String} _id   Obrigatório
-	 * @apiParam {String} nome Obrigatório
-	 * @apiParam {String} email Obrigatório
-	 * @apiParam {String} senha Obrigatório
-	 * @apiParam {[conta]} contas Opcional
-	 * @apiParam {[transacao]} transacoes Opcional
-	 * @apiParam {[categoria]} categorias Opcional
-   *
-   * @apiSuccess {Pessoa} pessoa Retorna os dados atualizados de uma pessoa.
-   *
-   * @apiSuccessExample {json} Sucesso
-   *    HTTP/1.1 200 OK
-   *    {
-   *
-   *    }
-   *
-   * @apiError Erro Erros.
-   *
-   * @apiErrorExample Error-Response:
-   *     HTTP/1.1 500 Internal Server Error
-   *     {
-   *       status: 500
-   *     }
-
-   * @apiError Erro Bad Request.
-   *
-   * @apiErrorExample Error-Response:
-   *     HTTP/1.1 400 Bad Request
-   *     {
-   *       status: 400
-   *     }
-   */
-router.put('/', function(req, res) {
-	Pessoa.findById(req.body.pessoa.id, function(err, pessoa) {
-    if (err)
-      res.send(err);
-
-    pessoa.nome = req.body.pessoa.nome;
-		pessoa.email = req.body.pessoa.email;
-		pessoa.senha = req.body.pessoa.senha;
-    pessoa.save(function(err) {
-      if (err)
-        res.send(err);
-
-      res.json(pessoa);
-    });
-  });
-});
-
-/**
- * @api {delete} /
- * @apiGroup Pessoa
-
- * @apiParam {String} _id   Obrigatório
- *
- * @apiSuccess {String} ok Sucesso em deletar uma pessoa.
- *
- * @apiSuccessExample {json} Sucesso
- *    HTTP/1.1 200 OK
- *    {
- *      "status: 200
+ *    	success: true,
+ *		  pessoas: ["_id": "",
+            "nome": "",
+            "__v": 0,
+            "email": "",
+            "senha": "",
+            "categorias": [],
+            "transacoes": [],
+            "contas": []]
  *    }
  *
  * @apiError Erro Erros.
@@ -173,150 +43,351 @@ router.put('/', function(req, res) {
  *       status: 400
  *     }
  */
-router.delete('/', function(req, res) {
-	Pessoa.remove({
-      _id: req.body.pessoa.id
-  }, function(err, pessoa) {
-      if (err)
-          res.send(err);
-
-      res.json({ message: 'Successfully deleted' });
+router.get('/pessoa', function(req, res) {
+	Pessoa.buscar(function(erro, dados){
+    if(erro)
+      res.sendStatus(500);
+    else {
+      res.json({
+		  	"success": true,
+		  	"pessoas": dados
+		  });
+    }
   });
 });
 
 /**
- * @api {post} /add-trasacao
+ * @api {post} /pessoa
+ * @apiName post
  * @apiGroup Pessoa
  *
- *@apiParam {String} _idPessoa Obrigatório
-
- * @apiParam {String} tituloTransacao Obrigatório
- * @apiParam {String} tipoTransacao Obrigatório
- * @apiParam {Number} valorTransacao Obrigatório
- *
- * @apiSuccess {String} ok Cadastro ocorreu com sucesso.
+ * @apiParam {String} nome Obrigatório
+ * @apiParam {String} email Obrigatório
+ * @apiParam {String} senha Obrigatório
  *
  * @apiSuccessExample {json} Sucesso
  *    HTTP/1.1 200 OK
  *    {
- *      status:200
- *    }
- *
+ *    	success: true,
+ *			pessoa: {"__v": 0,
+        "nome": "",
+        "email": "",
+        "senha": "",
+        "_id": "",
+        "categorias": [],
+        "transacoes": [],
+        "contas": []}
  *
  * @apiError Erro Erros.
  *
  * @apiErrorExample Error-Response:
  *     HTTP/1.1 500 Internal Server Error
  *     {
- *       status:500
+ *       status: 500
+ *     }
+
+ * @apiError Erro Bad Request.
+ *
+ * @apiErrorExample Error-Response:
+ *     HTTP/1.1 400 Bad Request
+ *     {
+ *       status: 400
  *     }
  */
-router.post("/add-transacao", function(req, res){
-	Pessoa.findById(req.body.pessoa.id, function(err, pessoa) {
+router.post('/pessoa', function(req, res) {
+	var dados = req.body;
+	console.log(dados);
+
+  if(!dados){
+    return res.sendStatus(400);
+	}
+
+	var pessoa = new Pessoa(dados);
+
+  pessoa.save(function(err){
+    if(err)
+      res.json({
+				"success": false
+			});
+    else {
+			res.json({
+		  	"success": true,
+				"pessoa": pessoa
+		  });
+    }
+  });
+});
+
+/**
+   * @api {put} /pessoa
+   * @apiName put
+   * @apiGroup Pessoa
+   *
+   *
+   * @apiParam {String} id   Obrigatório
+	 * @apiParam {String} nome Obrigatório
+	 * @apiParam {String} email Obrigatório
+	 * @apiParam {String} senha Obrigatório
+   *
+   *
+	 * @apiSuccessExample {json} Sucesso
+	 *    HTTP/1.1 200 OK
+	 *    {
+	 *    	success: true,
+	 				pessoa: {"_id": "",
+        "nome": "",
+        "email": "",
+        "senha": "",
+        "__v": 0,
+        "categorias": [],
+        "transacoes": [],
+        "contas": []}
+	 *    }
+	 *
+	 * @apiError Erro Erros.
+	 *
+	 * @apiErrorExample Error-Response:
+	 *     HTTP/1.1 500 Internal Server Error
+	 *     {
+	 *       status: 500
+	 *     }
+
+	 * @apiError Erro Bad Request.
+	 *
+	 * @apiErrorExample Error-Response:
+	 *     HTTP/1.1 400 Bad Request
+	 *     {
+	 *       status: 400
+	 *     }
+	 */
+router.put('/pessoa', function(req, res) {
+	Pessoa.findById(req.body.id, function(err, pessoa) {
+    if (err)
+      res.send(err);
+
+    pessoa.nome = req.body.nome;
+		pessoa.email = req.body.email;
+		pessoa.senha = req.body.senha;
+    pessoa.save(function(err) {
+      if (err){
+        res.sendStatus(500);
+			}
+
+      res.json({
+				"success": true,
+				"pessoa":	pessoa
+			});
+    });
+  });
+});
+
+/**
+ * @api {delete} /pessoa
+ * @apiName asdasd
+ * @apiGroup Pessoa
+ *
+ * @apiParam {String} id   Obrigatório
+ *
+ *
+ * @apiSuccessExample {json} Sucesso
+ *    HTTP/1.1 200 OK
+ *    {
+ *    	success: true
+ *    }
+ *
+ * @apiError Erro Erros.
+ *
+ * @apiErrorExample Error-Response:
+ *     HTTP/1.1 500 Internal Server Error
+ *     {
+ *       status: 500
+ *     }
+
+ * @apiError Erro Bad Request.
+ *
+ * @apiErrorExample Error-Response:
+ *     HTTP/1.1 400 Bad Request
+ *     {
+ *       status: 400
+ *     }
+ */
+router.delete('/pessoa', function(req, res) {
+	Pessoa.remove({
+      _id: req.Params
+  }, function(err, pessoa) {
+      if (err)
+          res.sendStatus(500);
+
+      res.json({ success: true });
+  });
+});
+
+/**
+ * @api {post} /pessoa/add/transacao
+ * @apiGroup Pessoa
+ *
+ * @apiParam {String} pessoaId Obrigatório
+ *
+ * @apiParam {String} titulo Obrigatório
+ * @apiParam {String} tipo Obrigatório
+ * @apiParam {Number} valor Obrigatório
+ *
+ * @apiSuccessExample {json} Sucesso
+ *    HTTP/1.1 200 OK
+ *    {
+ *    	success: true
+ *
+ *    }
+ *
+ * @apiError Erro Erros.
+ *
+ * @apiErrorExample Error-Response:
+ *     HTTP/1.1 500 Internal Server Error
+ *     {
+ *       status: 500
+ *     }
+
+ * @apiError Erro Bad Request.
+ *
+ * @apiErrorExample Error-Response:
+ *     HTTP/1.1 400 Bad Request
+ *     {
+ *       status: 400
+ *     }
+ */
+router.post("/pessoa/add/transacao", function(req, res){
+	Pessoa.findById(req.body.pessoaId, function(err, pessoa) {
     if (err){
       res.send(err);
 		} else{
-			var transacao = new Transacao(req.body.transacao);
+			var transacao = new Transacao({titulo: req.body.titulo,
+				tipo: req.body.tipo,
+				valor: req.body.valor});
 			transacao.save();
 			pessoa.transacoes.push(transacao);
 	    pessoa.save(function(err) {
 	      if (err)
-	        res.send(err);
+	        res.sendStatus(500);
 
-	    res.json(pessoa);
+	    res.json({
+				"success": true,
+				"pessoa": pessoa
+				});
 	    });
 		}
   });
 });
 
 /**
- * @api {post} /add-categoria
+ * @api {post} /pessoa/add/categoria
  * @apiGroup Pessoa
  *
- *@apiParam {String} _idPessoa Obrigatório
+ *@apiParam  {String} pessoaId Obrigatório
 
- * @apiParam {String} tituloCategoria Obrigatório
- * @apiParam {Number} estimativaGastos Obrigatório
- * @apiParam {String} tipoCategoria Obrigatório
- * @apiParam {[Transacao]} transacoes Obrigatório
+ * @apiParam {String} titulo Obrigatório
+ * @apiParam {Number} estimativa Obrigatório
+ * @apiParam {String} tipo Obrigatório
  *
- * @apiSuccess {String} ok Cadastro ocorreu com sucesso.
  *
  * @apiSuccessExample {json} Sucesso
  *    HTTP/1.1 200 OK
  *    {
- *      status:200
- *    }
+ *    	success: true
  *
+ *    }
  *
  * @apiError Erro Erros.
  *
  * @apiErrorExample Error-Response:
  *     HTTP/1.1 500 Internal Server Error
  *     {
- *       status:500
+ *       status: 500
+ *     }
+
+ * @apiError Erro Bad Request.
+ *
+ * @apiErrorExample Error-Response:
+ *     HTTP/1.1 400 Bad Request
+ *     {
+ *       status: 400
  *     }
  */
-router.post("/add-categoria", function(req, res){
-	Pessoa.findById(req.body.pessoa.id, function(err, pessoa) {
+router.post("/pessoa/add/categoria", function(req, res){
+	Pessoa.findById(req.body.pessoaId, function(err, pessoa) {
 		if (err){
 			res.send(err);
 		} else{
-			var categoria = new Categoria(req.body.categoria);
+			var categoria = new Categoria({titulo: req.body.titulo,
+				estimativa: req.body.estimativa,
+				tipo: req.body.tipo});
 			categoria.save();
 			pessoa.categorias.push(categoria);
 			pessoa.save(function(err) {
 				if (err)
-					res.send(err);
+					res.sendStatus(500);
 
-			res.json(pessoa);
+			res.json({
+				"success": true
+				});
 			});
 		}
 	});
 });
 
 /**
- * @api {post} /add-conta
+ * @api {post} /pessoa/add/conta
  * @apiGroup Pessoa
  *
- *@apiParam {String} _idPessoa Obrigatório
+ *@apiParam {String} pessoaId Obrigatório
 
- * @apiParam {String} tituloConta Obrigatório
- * @apiParam {String} descricao Opcional
- * @apiParam {Date} prazo Obrigatório
- * @apiParam {Number} valor Obrigatório
- * @apiParam {Boolean} status Obrigatório
- *
- * @apiSuccess {String} ok Cadastro ocorreu com sucesso.
+ * @apiParam  {String} titulo Obrigatório
+ * @apiParam  {String} [descricao] Opcional
+ * @apiParam  {Date} prazo Obrigatório
+ * @apiParam  {Number} valor Obrigatório
+ * @apiParam  {Boolean} status Obrigatório
  *
  * @apiSuccessExample {json} Sucesso
  *    HTTP/1.1 200 OK
  *    {
- *      status:200
+ *    	success: true
  *    }
- *
  *
  * @apiError Erro Erros.
  *
  * @apiErrorExample Error-Response:
  *     HTTP/1.1 500 Internal Server Error
  *     {
- *       status:500
+ *       status: 500
+ *     }
+
+ * @apiError Erro Bad Request.
+ *
+ * @apiErrorExample Error-Response:
+ *     HTTP/1.1 400 Bad Request
+ *     {
+ *       status: 400
  *     }
  */
-router.post("/add-conta", function(req, res){
-	Pessoa.findById(req.body.pessoa.id, function(err, pessoa) {
+router.post("/pessoa/add/conta", function(req, res){
+	Pessoa.findById(req.body.pessoaId, function(err, pessoa) {
 		if (err){
 			res.send(err);
 		} else{
-			var conta = new Conta(req.body.Conta);
+			var conta = new Conta({titulo:req.body.Conta,
+				descricao: req.body.descricao,
+				prazo: new Date(),
+				valor: req.body.valor,
+				status: req.body.status
+			});
 			conta.save();
 			pessoa.contas.push(conta);
 			pessoa.save(function(err) {
 				if (err)
-					res.send(err);
+					res.sendStatus(500);
 
-			res.json(pessoa);
+				res.json({
+					"success": true
+					});
 			});
 		}
 	});

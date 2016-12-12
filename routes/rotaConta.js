@@ -4,7 +4,7 @@ var Conta = require('../model/conta');
 
 
 /**
- * @api {get} /
+ * @api {get} /conta
  * @apiGroup Conta
  *
  * @apiSuccess {Conta[]} dados Todas as contas cadastradas na aplicação.
@@ -12,157 +12,14 @@ var Conta = require('../model/conta');
  * @apiSuccessExample {json} Sucesso
  *    HTTP/1.1 200 OK
  *    {
- *
- *    }
- *
- * @apiError Erro Erro interno do servidor.
- *
- * @apiErrorExample Error-Response:
- *     HTTP/1.1 500 Internal Server Error
- *     {
- *       status:500
- *     }
- */
-router.get('/', function(req, res) {
-	Conta.buscar(function(erro, dados){
-    if(erro)
-      res.sendStatus(500);
-    else {
-      res.json(dados);
-    }
-  });
-});
-
-/**
- * @api {post} /
- * @apiGroup Conta
- *
- * @apiParam {String} titulo Obrigatório
- * @apiParam {String} descricao Opcional
- * @apiParam {Date} prazo Obrigatorio
- * @apiParam {Number} valor Obrigatorio
- * @apiParam {Boolean} status Obrigatorio
- *
- * @apiSuccess {String} ok Cadastro ocorreu com sucesso.
- *
- * @apiSuccessExample {json} Sucesso
- *    HTTP/1.1 200 OK
- *    {
- *      status:200
- *    }
- *
- *
- * @apiError Erro Erros.
- *
- * @apiErrorExample Error-Response:
- *     HTTP/1.1 500 Internal Server Error
- *     {
- *       status:500
- *     }
-
- * @apiError Erro Bad Request.
- *
- * @apiErrorExample Error-Response:
- *     HTTP/1.1 400 Bad Request
- *     {
- *       status: 400
- *     }
- */
-router.post('/', function(req, res) {
-	var dados = req.body.conta;
-
-  if(!dados)
-    return res.sendStatus(400);
-
-  var conta = new Conta(dados);
-
-  conta.save(function(err){
-    if(err)
-      res.sendStatus(500);
-    else {
-      res.sendStatus(200);
-    }
-  });
-});
-
-/**
-   * @api {put} /
-   * @apiGroup Conta
-
-   * @apiParam {String} _id   Obrigatório
-	 * @apiParam {String} titulo Obrigatório
-	 * @apiParam {String} descricao Opcional
-	 * @apiParam {Date} prazo Obrigatorio
-	 * @apiParam {Number} valor Obrigatorio
-	 * @apiParam {Boolean} status Obrigatorio
-   *
-   * @apiSuccess {Conta} conta Retorna os dados atualizados de uma conta.
-   *
-   * @apiSuccessExample {json} Sucesso
-   *    HTTP/1.1 200 OK
-   *    {
-   *
-   *    }
-   *
-   * @apiError Erro Erros.
-   *
-   * @apiErrorExample Error-Response:
-   *     HTTP/1.1 500 Internal Server Error
-   *     {
-   *       status: 500
-   *     }
-
-   * @apiError Erro Bad Request.
-   *
-   * @apiErrorExample Error-Response:
-   *     HTTP/1.1 400 Bad Request
-   *     {
-   *       status: 400
-   *     }
-   */
-router.put('/', function(req, res) {
-	var dados = req.body.Conta;
-
-  if(!dados)
-    return res.sendStatus(400);
-
-  var json = JSON.parse(dados);
-
-  ContaEditar = new Conta(json);
-
-  Conta.buscarPorId(ContaEditar._id, function(err, Conta){
-     if(err)
-        return response.sendStatus(500);
-
-        Conta.titulo = ContaEditar.titulo;
-        Conta.prazo = ContaEditar.prazo;
-				Conta.valor = ContaEditar.valor;
-				Conta.status = ContaEditar.status;
-				Conta.descricao = ContaEditar.descricao;
-
-
-        Conta.save(function(err){
-          if(err)
-            response.sendStatus(500);
-          else{
-            response.json(ContaEditar);
-          }
-     });
-   });
-});
-
-/**
- * @api {delete} /
- * @apiGroup Conta
-
- * @apiParam {String} _id   Obrigatório
- *
- * @apiSuccess {String} ok Sucesso em deletar uma conta.
- *
- * @apiSuccessExample {json} Sucesso
- *    HTTP/1.1 200 OK
- *    {
- *      "status: 200
+ *    	success: true,
+ *			contas: [{"_id": "",
+ *            "titulo": "",
+ *          "descricao": "",
+ *            "valor": ,
+ *            "status": ,
+ *            "prazo": "",
+ *            "__v": 0}]
  *    }
  *
  * @apiError Erro Erros.
@@ -181,7 +38,176 @@ router.put('/', function(req, res) {
  *       status: 400
  *     }
  */
-router.delete('/', function(req, res) {
+
+router.get('/conta', function(req, res) {
+	Conta.buscar(function(erro, dados){
+    if(erro)
+      res.sendStatus(500);
+    else {
+      res.json({
+				"success": true,
+				"contas": dados
+			});
+    }
+  });
+});
+
+/**
+ * @api {post} /conta
+ * @apiGroup Conta
+ *
+ * @apiParam {String} titulo Obrigatório
+ * @apiParam {String} descricao Opcional
+ * @apiParam {Number} valor Obrigatorio
+ * @apiParam {Boolean} status Obrigatorio
+ *
+ * @apiSuccessExample {json} Sucesso
+ *    HTTP/1.1 200 OK
+ *    {
+ *    	success: true,
+ *     	conta: "__v": 0,
+ *      "titulo": "",
+ *      "descricao": "",
+ *      "valor": ,
+ *      "status": ,
+ *      "prazo": "",
+ *      "_id": ""
+ *    }
+ *
+ * @apiError Erro Erros.
+ *
+ * @apiErrorExample Error-Response:
+ *     HTTP/1.1 500 Internal Server Error
+ *     {
+ *       status: 500
+ *     }
+
+ * @apiError Erro Bad Request.
+ *
+ * @apiErrorExample Error-Response:
+ *     HTTP/1.1 400 Bad Request
+ *     {
+ *       status: 400
+ *     }
+ */
+router.post('/conta', function(req, res) {
+	var dados = req.body;
+
+  if(!dados)
+    return res.sendStatus(400);
+
+	dados.prazo = new Date();
+
+  var conta = new Conta(dados);
+
+  conta.save(function(err){
+    if(err)
+      res.sendStatus(500);
+    else {
+      res.json({
+				"success": true,
+				"conta": conta
+			});
+    }
+  });
+});
+
+/**
+   * @api {put} /conta
+   * @apiGroup Conta
+
+   * @apiParam {String} id   Obrigatório
+	 * @apiParam {String} titulo Obrigatório
+	 * @apiParam {String} descricao Opcional
+	 * @apiParam {Number} valor Obrigatorio
+	 * @apiParam {Boolean} status Obrigatorio
+   *
+   * @apiSuccess {Conta} conta Retorna os dados atualizados de uma conta.
+   *
+   * @apiSuccessExample {json} Sucesso
+   *    HTTP/1.1 200 OK
+   *     "success": true,
+    "conta": {
+        "_id": "",
+        "titulo": "",
+        "descricao": "",
+        "valor": ,
+        "status": ,
+        "prazo": "",
+        "__v":
+    }
+   *
+   * @apiError Erro Erros.
+   *
+   * @apiErrorExample Error-Response:
+   *     HTTP/1.1 500 Internal Server Error
+   *     {
+   *       status: 500
+   *     }
+
+   * @apiError Erro Bad Request.
+   *
+   * @apiErrorExample Error-Response:
+   *     HTTP/1.1 400 Bad Request
+   *     {
+   *       status: 400
+   *     }
+   */
+router.put('/conta', function(req, res) {
+
+	Conta.findById(req.body.id, function(err, conta) {
+    if (err){
+      res.send(err);
+		}
+
+		conta.titulo = req.body.titulo;
+		conta.prazo = new Date();
+		conta.valor = req.body.valor;
+		conta.status = req.body.status;
+		conta.descricao = req.body.descricao;
+
+    conta.save(function(err) {
+      if (err){
+        res.sendStatus(err);
+			}
+
+      res.json({
+				"success": true,
+				"conta":	conta
+			});
+    });
+  });
+});
+
+/**
+ * @api {delete} /conta
+ * @apiGroup Conta
+
+ * @apiParam {String} id   Obrigatório
+ *
+ * @apiSuccessExample {json} Sucesso
+ *    HTTP/1.1 200 OK
+ *    {
+ *    	success: true
+ *    }
+ *
+ * @apiError Erro Erros.
+ *
+ * @apiErrorExample Error-Response:
+ *     HTTP/1.1 500 Internal Server Error
+ *     {
+ *       status: 500
+ *     }
+
+ * @apiError Erro Bad Request.
+ *
+ * @apiErrorExample Error-Response:
+ *     HTTP/1.1 400 Bad Request
+ *     {
+ *       status: 400
+ *     }
+ */
+router.delete('/conta', function(req, res) {
 	var dados = req.body.Conta;
 
   if(!dados)
@@ -191,7 +217,7 @@ router.delete('/', function(req, res) {
 
   var ContaExcluir = new Conta(json);
 
-  Conta.remove({_id:ContaExcluir._id}, function(err){
+  Conta.remove({_id:ContaExcluir.id}, function(err){
     if(err)
       return response.sendStatus(500);
 
