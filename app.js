@@ -17,4 +17,6 @@ app.use(express.static(path.join(__dirname, 'public/apidoc')));
 
 app.use('/', routes);
 
-app.listen(3000);
+var port = process.env.PORT || 3000;
+
+app.listen(port);
