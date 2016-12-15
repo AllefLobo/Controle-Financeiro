@@ -213,9 +213,7 @@ router.delete('/conta', function(req, res) {
   if(!dados)
     return response.sendStatus(400);
 
-  var json = JSON.parse(dados);
-
-  var ContaExcluir = new Conta(json);
+  var ContaExcluir = new Conta(dados);
 
   Conta.remove({_id:ContaExcluir.id}, function(err){
     if(err)
