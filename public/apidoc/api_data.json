@@ -393,6 +393,65 @@
     ]
   },
   {
+    "type": "get",
+    "url": "/conta",
+    "title": "",
+    "group": "Conta",
+    "name": "Buscar_Conta",
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "type": "Conta[]",
+            "optional": false,
+            "field": "dados",
+            "description": "<p>Todas as contas cadastradas na aplicação.</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Sucesso",
+          "content": "   HTTP/1.1 200 OK\n   {\n   \tsuccess: true,\n\t\t\tcontas: [{\"_id\": \"\",\n           \"titulo\": \"\",\n         \"descricao\": \"\",\n           \"valor\": ,\n           \"status\": ,\n           \"prazo\": \"\",\n           \"__v\": 0}]\n   }",
+          "type": "json"
+        }
+      ]
+    },
+    "error": {
+      "fields": {
+        "Error 4xx": [
+          {
+            "group": "Error 4xx",
+            "optional": false,
+            "field": "Erro",
+            "description": "<p>Erros.</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Error-Response:",
+          "content": "HTTP/1.1 500 Internal Server Error\n{\n  status: 500\n}",
+          "type": "json"
+        },
+        {
+          "title": "Error-Response:",
+          "content": "HTTP/1.1 400 Bad Request\n{\n  status: 400\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "version": "0.0.0",
+    "filename": "routes/rotaConta.js",
+    "groupTitle": "Conta",
+    "sampleRequest": [
+      {
+        "url": "https://quiet-journey-50365.herokuapp.com/api/conta"
+      }
+    ]
+  },
+  {
     "type": "delete",
     "url": "/conta",
     "title": "",
@@ -447,65 +506,6 @@
     "filename": "routes/rotaConta.js",
     "groupTitle": "Conta",
     "name": "DeleteConta",
-    "sampleRequest": [
-      {
-        "url": "https://quiet-journey-50365.herokuapp.com/api/conta"
-      }
-    ]
-  },
-  {
-    "type": "get",
-    "url": "/conta",
-    "title": "",
-    "group": "Conta",
-    "success": {
-      "fields": {
-        "Success 200": [
-          {
-            "group": "Success 200",
-            "type": "Conta[]",
-            "optional": false,
-            "field": "dados",
-            "description": "<p>Todas as contas cadastradas na aplicação.</p>"
-          }
-        ]
-      },
-      "examples": [
-        {
-          "title": "Sucesso",
-          "content": "   HTTP/1.1 200 OK\n   {\n   \tsuccess: true,\n\t\t\tcontas: [{\"_id\": \"\",\n           \"titulo\": \"\",\n         \"descricao\": \"\",\n           \"valor\": ,\n           \"status\": ,\n           \"prazo\": \"\",\n           \"__v\": 0}]\n   }",
-          "type": "json"
-        }
-      ]
-    },
-    "error": {
-      "fields": {
-        "Error 4xx": [
-          {
-            "group": "Error 4xx",
-            "optional": false,
-            "field": "Erro",
-            "description": "<p>Erros.</p>"
-          }
-        ]
-      },
-      "examples": [
-        {
-          "title": "Error-Response:",
-          "content": "HTTP/1.1 500 Internal Server Error\n{\n  status: 500\n}",
-          "type": "json"
-        },
-        {
-          "title": "Error-Response:",
-          "content": "HTTP/1.1 400 Bad Request\n{\n  status: 400\n}",
-          "type": "json"
-        }
-      ]
-    },
-    "version": "0.0.0",
-    "filename": "routes/rotaConta.js",
-    "groupTitle": "Conta",
-    "name": "GetConta",
     "sampleRequest": [
       {
         "url": "https://quiet-journey-50365.herokuapp.com/api/conta"

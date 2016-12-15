@@ -212,14 +212,21 @@ router.put('/pessoa', function(req, res) {
  *     }
  */
 router.delete('/pessoa', function(req, res) {
-	Pessoa.remove({
-      _id: req.Params
-  }, function(err, pessoa) {
-      if (err)
-          res.sendStatus(500);
+	var dados = req.body;
 
-      res.json({ success: true });
-  });
+	if(!dados)
+		return response.sendStatus(400);
+
+	var json = JSON.parse(dados);
+
+	var PessoaExcluir = new Pessoa(json);
+
+	Pessoa.remove({_id:PessoaExcluir.id}, function(err){
+		if(err)
+			return response.sendStatus(500);
+
+		response.sendStatus(200);
+	});
 });
 
 /**
@@ -342,7 +349,6 @@ router.post("/pessoa/add/categoria", function(req, res){
 
  * @apiParam  {String} titulo Obrigatório
  * @apiParam  {String} [descricao] Opcional
- * @apiParam  {Date} prazo Obrigatório
  * @apiParam  {Number} valor Obrigatório
  * @apiParam  {Boolean} status Obrigatório
  *
