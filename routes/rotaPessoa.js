@@ -211,7 +211,7 @@ router.put('/pessoa', function(req, res) {
  *       status: 400
  *     }
  */
-router.delete('/pessoa', function(req, res) {
+router.delete('/pessoa', function(req, response) {
 	var dados = req.body;
 
 	if(!dados)

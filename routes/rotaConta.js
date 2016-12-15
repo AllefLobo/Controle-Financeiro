@@ -207,7 +207,7 @@ router.put('/conta', function(req, res) {
  *       status: 400
  *     }
  */
-router.delete('/conta', function(req, res) {
+router.delete('/conta', function(req, response) {
 	var dados = req.body;
 
   if(!dados)

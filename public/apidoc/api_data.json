@@ -67,7 +67,7 @@
     "name": "DeleteCategoria",
     "sampleRequest": [
       {
-        "url": "https://quiet-journey-50365.herokuapp.com/api/categoria"
+        "url": "http://localhost:3000/api/categoria"
       }
     ]
   },
@@ -121,7 +121,7 @@
     "name": "GetCategoria",
     "sampleRequest": [
       {
-        "url": "https://quiet-journey-50365.herokuapp.com/api/categoria"
+        "url": "http://localhost:3000/api/categoria"
       }
     ]
   },
@@ -207,7 +207,7 @@
     "name": "PostCategoria",
     "sampleRequest": [
       {
-        "url": "https://quiet-journey-50365.herokuapp.com/api/categoria"
+        "url": "http://localhost:3000/api/categoria"
       }
     ]
   },
@@ -295,7 +295,7 @@
     "name": "PostCategoriaAddTransacao",
     "sampleRequest": [
       {
-        "url": "https://quiet-journey-50365.herokuapp.com/api/categoria/add/transacao"
+        "url": "http://localhost:3000/api/categoria/add/transacao"
       }
     ]
   },
@@ -388,7 +388,7 @@
     "name": "PutCategoria",
     "sampleRequest": [
       {
-        "url": "https://quiet-journey-50365.herokuapp.com/api/categoria"
+        "url": "http://localhost:3000/api/categoria"
       }
     ]
   },
@@ -447,7 +447,7 @@
     "groupTitle": "Conta",
     "sampleRequest": [
       {
-        "url": "https://quiet-journey-50365.herokuapp.com/api/conta"
+        "url": "http://localhost:3000/api/conta"
       }
     ]
   },
@@ -463,7 +463,7 @@
             "group": "Parameter",
             "type": "String",
             "optional": false,
-            "field": "id",
+            "field": "_id",
             "description": "<p>Obrigatório</p>"
           }
         ]
@@ -508,7 +508,7 @@
     "name": "DeleteConta",
     "sampleRequest": [
       {
-        "url": "https://quiet-journey-50365.herokuapp.com/api/conta"
+        "url": "http://localhost:3000/api/conta"
       }
     ]
   },
@@ -590,7 +590,7 @@
     "name": "PostConta",
     "sampleRequest": [
       {
-        "url": "https://quiet-journey-50365.herokuapp.com/api/conta"
+        "url": "http://localhost:3000/api/conta"
       }
     ]
   },
@@ -690,7 +690,7 @@
     "name": "PutConta",
     "sampleRequest": [
       {
-        "url": "https://quiet-journey-50365.herokuapp.com/api/conta"
+        "url": "http://localhost:3000/api/conta"
       }
     ]
   },
@@ -772,7 +772,7 @@
     "name": "PostPessoaAddCategoria",
     "sampleRequest": [
       {
-        "url": "https://quiet-journey-50365.herokuapp.com/api/pessoa/add/categoria"
+        "url": "http://localhost:3000/api/pessoa/add/categoria"
       }
     ]
   },
@@ -804,13 +804,6 @@
             "optional": true,
             "field": "descricao",
             "description": "<p>Opcional</p>"
-          },
-          {
-            "group": "Parameter",
-            "type": "Date",
-            "optional": false,
-            "field": "prazo",
-            "description": "<p>Obrigatório</p>"
           },
           {
             "group": "Parameter",
@@ -868,7 +861,7 @@
     "name": "PostPessoaAddConta",
     "sampleRequest": [
       {
-        "url": "https://quiet-journey-50365.herokuapp.com/api/pessoa/add/conta"
+        "url": "http://localhost:3000/api/pessoa/add/conta"
       }
     ]
   },
@@ -950,7 +943,7 @@
     "name": "PostPessoaAddTransacao",
     "sampleRequest": [
       {
-        "url": "https://quiet-journey-50365.herokuapp.com/api/pessoa/add/transacao"
+        "url": "http://localhost:3000/api/pessoa/add/transacao"
       }
     ]
   },
@@ -967,7 +960,7 @@
             "group": "Parameter",
             "type": "String",
             "optional": false,
-            "field": "id",
+            "field": "_id",
             "description": "<p>Obrigatório</p>"
           }
         ]
@@ -1011,7 +1004,7 @@
     "groupTitle": "Pessoa",
     "sampleRequest": [
       {
-        "url": "https://quiet-journey-50365.herokuapp.com/api/pessoa"
+        "url": "http://localhost:3000/api/pessoa"
       }
     ]
   },
@@ -1059,7 +1052,7 @@
     "groupTitle": "Pessoa",
     "sampleRequest": [
       {
-        "url": "https://quiet-journey-50365.herokuapp.com/api/pessoa"
+        "url": "http://localhost:3000/api/pessoa"
       }
     ]
   },
@@ -1134,7 +1127,7 @@
     "groupTitle": "Pessoa",
     "sampleRequest": [
       {
-        "url": "https://quiet-journey-50365.herokuapp.com/api/pessoa"
+        "url": "http://localhost:3000/api/pessoa"
       }
     ]
   },
@@ -1216,7 +1209,7 @@
     "groupTitle": "Pessoa",
     "sampleRequest": [
       {
-        "url": "https://quiet-journey-50365.herokuapp.com/api/pessoa"
+        "url": "http://localhost:3000/api/pessoa"
       }
     ]
   },
@@ -1288,7 +1281,7 @@
     "name": "DeleteTransacao",
     "sampleRequest": [
       {
-        "url": "https://quiet-journey-50365.herokuapp.com/api/transacao"
+        "url": "http://localhost:3000/api/transacao"
       }
     ]
   },
@@ -1342,7 +1335,7 @@
     "name": "GetTransacao",
     "sampleRequest": [
       {
-        "url": "https://quiet-journey-50365.herokuapp.com/api/transacao"
+        "url": "http://localhost:3000/api/transacao"
       }
     ]
   },
@@ -1428,7 +1421,7 @@
     "name": "PostTransacao",
     "sampleRequest": [
       {
-        "url": "https://quiet-journey-50365.herokuapp.com/api/transacao"
+        "url": "http://localhost:3000/api/transacao"
       }
     ]
   },
@@ -1521,7 +1514,7 @@
     "name": "PutTransacao",
     "sampleRequest": [
       {
-        "url": "https://quiet-journey-50365.herokuapp.com/api/transacao"
+        "url": "http://localhost:3000/api/transacao"
       }
     ]
   }
