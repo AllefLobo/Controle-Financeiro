@@ -6,7 +6,7 @@ var Conta = require('../model/conta');
 /**
  * @api {get} /conta
  * @apiGroup Conta
- *
+ * @apiName Buscar Conta
  * @apiSuccess {Conta[]} dados Todas as contas cadastradas na aplicação.
  *
  * @apiSuccessExample {json} Sucesso
@@ -208,7 +208,7 @@ router.put('/conta', function(req, res) {
  *     }
  */
 router.delete('/conta', function(req, res) {
-	var dados = req.body.Conta;
+	var dados = req.body;
 
   if(!dados)
     return response.sendStatus(400);
