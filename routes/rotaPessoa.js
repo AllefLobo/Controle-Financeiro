@@ -186,7 +186,7 @@ router.put('/pessoa', function(req, res) {
  * @apiName asdasd
  * @apiGroup Pessoa
  *
- * @apiParam {String} id   Obrigatório
+ * @apiParam {String} _id   Obrigatório
  *
  *
  * @apiSuccessExample {json} Sucesso
@@ -219,7 +219,7 @@ router.delete('/pessoa', function(req, res) {
 
 	var PessoaExcluir = new Pessoa(dados);
 
-	Pessoa.remove({_id:PessoaExcluir.id}, function(err){
+	Pessoa.remove({_id:PessoaExcluir._id}, function(err){
 		if(err)
 			return response.sendStatus(500);
 
