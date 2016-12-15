@@ -217,9 +217,7 @@ router.delete('/pessoa', function(req, res) {
 	if(!dados)
 		return response.sendStatus(400);
 
-	var json = JSON.parse(dados);
-
-	var PessoaExcluir = new Pessoa(json);
+	var PessoaExcluir = new Pessoa(dados);
 
 	Pessoa.remove({_id:PessoaExcluir.id}, function(err){
 		if(err)
