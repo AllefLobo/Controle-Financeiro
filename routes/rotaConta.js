@@ -183,7 +183,7 @@ router.put('/conta', function(req, res) {
  * @api {delete} /conta
  * @apiGroup Conta
 
- * @apiParam {String} id   Obrigatório
+ * @apiParam {String} _id   Obrigatório
  *
  * @apiSuccessExample {json} Sucesso
  *    HTTP/1.1 200 OK
@@ -215,7 +215,7 @@ router.delete('/conta', function(req, res) {
 
   var ContaExcluir = new Conta(dados);
 
-  Conta.remove({_id:ContaExcluir.id}, function(err){
+  Conta.remove({_id:ContaExcluir._id}, function(err){
     if(err)
       return response.sendStatus(500);
 
